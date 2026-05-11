@@ -35,6 +35,7 @@ import sys
 from pathlib import Path
 from typing import Optional, Any
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 # Load environment variables from .env file
 load_dotenv()
@@ -411,7 +412,7 @@ def extract(
         from .builder import extract_triples
         
         output_files = {}
-        for record in records:
+        for record in tqdm(records, desc="Extracting triples", unit="record"):
             record_id = str(record["id"])
             text = str(record["text"])
             output_path = json_dir / f"{record_id}.json"
@@ -495,7 +496,7 @@ def augment_connectivity(
         from .builder import augment_triples
         
         output_files = {}
-        for record in records:
+        for record in tqdm(records, desc="Augmenting connectivity", unit="record"):
             record_id = str(record["id"])
             text = str(record["text"])
             output_path = json_dir / f"{record_id}.json"

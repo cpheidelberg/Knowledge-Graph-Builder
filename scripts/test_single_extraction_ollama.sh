@@ -45,10 +45,11 @@ fi
 
 # Input Data
 INPUT_FILE="${BASE_DIR}/data/legal/legal_background.jsonl"  # Path to your input file
-INPUT_FILE="${HOME}/sdsHD/sd21c015/DataBaseReports/2025_anonymized/case-38977_Hauptbefund.txt"  # Path to your input file
+INPUT_FILE="${HOME}/sdsHD/sd21c015/DataBaseReports/2025_anonymized/"  # Path to your input file
 TEXT_FIELD="text"  # Field name containing the text to analyze
 ID_FIELD="id"  # Field name containing record IDs
 RECORD_IDS=""  # Specific record ID(s) to process (comma-separated, or empty for all)
+LIMIT_RECORDS=100  # Limit number of records to process (for testing, e.g. 10)
 
 # Domain Configuration
 DOMAIN="pathology"  # Use: kgb list domains
@@ -71,7 +72,7 @@ LAYOUT="spring"  # Graph layout (spring, circular, kamada_kawai, shell)
 GROUP_BY="entity_type"  # Options: entity_type, relation
 
 # Processing Options
-MAX_WORKERS=3  # Lower for local models
+MAX_WORKERS=6  # Lower for local models
 TIMEOUT=300  # Higher timeout for local models
 
 ################################################################################
@@ -152,7 +153,9 @@ CLI_OPTS="$CLI_OPTS --base-url $OLLAMA_BASE_URL"
 if [ -n "$MODEL_NAME" ]; then
     CLI_OPTS="$CLI_OPTS --model $MODEL_NAME"
 fi
-
+if [ -n "$LIMIT_RECORDS" ]; then
+    CLI_OPTS="$CLI_OPTS --limit $LIMIT_RECORDS"
+fi
 if [ -n "$MAX_WORKERS" ]; then
     CLI_OPTS="$CLI_OPTS --workers $MAX_WORKERS"
 fi
